@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<title>Even Color Selector</title>
+	<meta charset="utf-8">
+	<meta name="author" content="https://twitter.com/Project_KAInyan">
+</head>
+
+<style type="text/css">
+
+body{
+	user-select:		none;
+	color:			#333;
+	font-family: 		sans-serif;
+	width:			800px;
+	height:			860px;
+	position:		absolute;
+	top:			50%;
+	left:			50%;
+	margin:			0 -50% 0 0;
+	transform:		translate(-50%, -50%);
+}
+
+
+#colname{
+	user-select:		text;
+	font-size:		50px;
+	font-weight:		bold;
+	text-align:		center;
+}
+
+
+#selectedcol{
+	width:	 		480px;
+	height:			480px;
+	margin:			0 auto 20px;
+	border:			solid 5px #FFF;
+	display:		flex;
+	justify-content:	flex-end;
+	align-items:		flex-end;
+	transition:		height 0.25s;
+}#subcolbox1{
+	width:	 		180px;
+	height:			180px;
+	margin:			10px;
+	clip-path:		polygon( 100% 0% , 100% 100% , 0% 100% );
+}#subcol1{
+	width:	 		170px;
+	height:			170px;
+	margin:			5px;
+	clip-path:		polygon( 100% 0% , 100% 100% , 0% 100% );
+	display:		flex;
+	justify-content:	flex-end;
+	align-items:		flex-end;
+}#subcolbox2{
+	width:	 		60px;
+	height:			60px;
+	margin:			10px;
+	clip-path:		polygon( 100% 0% , 100% 100% , 0% 100% );
+}#subcol2{
+	width:	 		50px;
+	height:			50px;
+	margin:			5px;
+	clip-path:		polygon( 100% 0% , 100% 100% , 0% 100% );
+}
+
+
+#zcolbar{
+	overflow:		hidden;
+	height:			60px;
+	width:	 		774px;
+	margin:			0 auto;
+}.zcolbar_in{
+	float:			left;
+	width:	 		1px;
+	height:			50px;
+	border-bottom:		solid 2px #FFF;
+	border-top:		solid 2px #FFF;
+}
+
+
+#colbar{
+	overflow:		hidden;
+	width:	 		774px;
+	margin:			0 auto;
+	height:			20px;
+}.colbar_in{
+	float:			left;
+	width:	 		1px;
+	height:			20px;
+}#colbar0{
+	width:	 		4px;
+}#colbar767{
+	width:	 		3px;
+}
+
+
+#scrollfrm{
+	width:			774px;
+	margin:			0 auto 10px;
+}#scrollbar{
+	width:			390px;
+	height:			5px;
+}
+
+
+#morecontrol{
+	overflow:		hidden;
+	margin:			0 auto;
+	width:			774px;
+	opacity:		0;
+	border-top:		solid 1px #CCC;
+	transition:		border-top 0.5s, opacity 0.5s;
+}#morecontrol_i{
+	margin:			0 auto 10px;
+	height:			20px;
+	width:			20px;
+	background-color:	#CCC;
+	clip-path:		polygon( 50% 50% , 100% 100% , 0% 100% );
+	transition:		background-color 0.5s;
+}#morecontrol_i:hover{
+	background-color:	#333;
+}
+
+
+#control{
+	overflow:		hidden;
+	margin:			0 auto;
+	width:			774px;
+}.controls_l{
+	float:			left;
+	width:			240px;
+	margin:			0 0 10px 150px;
+}.controls_r{
+	float:			right;
+	width:			240px;
+	margin:			0 80px 10px 0;
+}.controls{
+	margin:			0 0 0 150px;
+}.options{
+	height:			30px;
+}
+
+
+#additional{
+	overflow:		hidden;
+	height:			0px;
+	transition:		height 0.25s;
+}.sepalator{
+	overflow:		hidden;
+	margin:			0 auto;
+	width:			774px;
+	border-top:		solid 1px #CCC;
+	padding:		15px 0 0;
+}#aopt_f_i{
+	padding:		0 5px;
+	height:			30px;
+}#aopt_m_i{
+	margin:			0 30px;
+	padding:		0 20px;
+	height:			30px;
+}#aopt_r_i{
+	padding:		0 20px;
+	height:			30px;
+}
+
+</style>
+
+<body>
+	<div id="colname">
+	</div>
+	<div id="uncontextable">
+		<div id="selectedcol">
+			<div id="subcolbox1">
+				<div id="subcol1"style="visibility:hidden;">
+					<div id="subcolbox2">
+						<div id="subcol2">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="zcolbar">
+	</div>
+	<div id="colbar">
+	</div>
+	<div id="scrollfrm">
+		<div id="scrollbar"></div>
+	</div>
+	<div id="control">
+		<div id="morecontrol">
+			<div id="morecontrol_i"></div>
+		</div>
+		<div class="controls_l">
+			<div class="options" id="opt_s">
+				<INPUT type="text" id="opt_s_i" value="100" size="2" style="text-align:center;">
+				<label for="opt_s_i">							Saturation		</label>
+			</div>
+			<div class="options" id="opt_v">
+				<INPUT type="text" id="opt_v_i" value="100" size="2" style="text-align:center;">
+				<label for="opt_v_i">							Value			</label>
+			</div>
+		</div>
+		<div class="controls_r">
+			<div class="options" id="opt_n">
+				<INPUT type="checkbox" id="opt_n_i"><label for="opt_n_i">		Normalize Value		</label>
+			</div>
+			<div class="options" id="opt_j">
+				<INPUT type="checkbox" id="opt_j_i"><label for="opt_j_i">		Expand Color Transition	</label>
+			</div>
+		</div>
+	</div>
+	<div id="additional">
+		<div class="sepalator">
+			<div class="controls_l">
+				<div class="options" id="aopt_sh">
+					<INPUT type="text" id="aopt_sh_i" value="0" size="2" style="text-align:center;">
+					<label for="aopt_sh_i">						Hue (degree)		</label>
+				</div>
+				<div class="options" id="aopt_ss">
+					<INPUT type="text" id="aopt_ss_i" value="100" size="2" style="text-align:center;">
+					<label for="aopt_ss_i">						Saturation		</label>
+				</div>
+				<div class="options" id="aopt_sv">
+					<INPUT type="text" id="aopt_sv_i" value="90" size="2" style="text-align:center;">
+					<label for="aopt_sv_i">						Value			</label>
+				</div>
+			</div>
+			<div class="controls_r">
+				<div class="options"></div>
+				<div class="options" id="aopt_s">
+					<INPUT type="checkbox" id="aopt_s_i"><label for="aopt_s_i">	Display 2nd Color	</label>
+				</div>
+			</div>
+		</div>
+		<div class="sepalator">
+			<div class="controls_l">
+				<div class="options" id="aopt_th">
+					<INPUT type="text" id="aopt_th_i" value="0" size="2" style="text-align:center;">
+					<label for="aopt_th_i">						Hue (degree)		</label>
+				</div>
+				<div class="options" id="aopt_ts">
+					<INPUT type="text" id="aopt_ts_i" value="100" size="2" style="text-align:center;">
+					<label for="aopt_ts_i">						Saturation		</label>
+				</div>
+				<div class="options" id="aopt_tv">
+					<INPUT type="text" id="aopt_tv_i" value="80" size="2" style="text-align:center;">
+					<label for="aopt_tv_i">						Value			</label>
+				</div>
+			</div>
+			<div class="controls_r">
+				<div class="options"></div>
+				<div class="options" id="aopt_t">
+					<INPUT type="checkbox" id="aopt_t_i"><label for="aopt_t_i">	Display 3rd Color	</label>
+				</div>
+			</div>
+		</div>
+		<div class="sepalator">
+			<div class="controls">
+				<select id="aopt_f_i">
+					<option value="CF">						Copy Format		</option>
+					<option value="hFF">						#FFFFFF			</option>
+					<option value="hff">						#ffffff			</option>
+					<option value="FF">						FFFFFF			</option>
+					<option value="ff">						ffffff			</option>
+					<option value="255s">						255, 255, 255		</option>
+					<option value="255">						255,255,255		</option>
+				</select>
+				<button id="aopt_m_i">							Generate GIMP Palette	</button>
+				<button id="aopt_r_i">							Reset All		</button>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script>
+
+/* -------- ADJUST VARIABLES --------*/
+/* -- Get Elements --*/
+selectedcol			= document.getElementById("selectedcol");
+subcol1				= document.getElementById("subcol1");
+subcol2				= document.getElementById("subcol2");
+colname				= document.getElementById("colname");
+zcolbar				= document.getElementById("zcolbar");
+colbar				= document.getElementById("colbar");
+scrollfrm			= document.getElementById("scrollfrm");
+scrollbar			= document.getElementById("scrollbar");
+morecontrol			= document.getElementById("morecontrol")
+morecontrol_i			= document.getElementById("morecontrol_i")
+opt_s_i				= document.getElementById("opt_s_i");
+opt_v_i				= document.getElementById("opt_v_i");
+opt_n_i				= document.getElementById("opt_n_i");
+opt_j_i				= document.getElementById("opt_j_i");
+opt_e_i				= document.getElementById("opt_e_i");
+aopt_s_i			= document.getElementById("aopt_s_i");
+aopt_sh_i			= document.getElementById("aopt_sh_i");
+aopt_ss_i			= document.getElementById("aopt_ss_i");
+aopt_sv_i			= document.getElementById("aopt_sv_i");
+aopt_t_i			= document.getElementById("aopt_t_i");
+aopt_th_i			= document.getElementById("aopt_th_i");
+aopt_ts_i			= document.getElementById("aopt_ts_i");
+aopt_tv_i			= document.getElementById("aopt_tv_i");
+aopt_f_i			= document.getElementById("aopt_f_i");
+aopt_m_i			= document.getElementById("aopt_m_i");
+aopt_r_i			= document.getElementById("aopt_r_i");
+uncontextable			= document.getElementById("uncontextable");
+uncontextable.oncontextmenu	= function () {return false;};
+
+
+/* -- Reset Options --*/
+function myResetOptions(){
+	opt_s_i.value			= "100"
+	opt_v_i.value			= "100"
+	opt_n_i.checked			= true;
+	opt_j_i.checked			= false;
+
+	aopt_s_i.checked		= true;
+	aopt_sh_i.value			= "0"
+	aopt_ss_i.value			= "100"
+	aopt_sv_i.value			= "90"
+
+	aopt_t_i.checked		= false;
+	aopt_th_i.value			= "0"
+	aopt_ts_i.value			= "100"
+	aopt_tv_i.value			= "80"
+
+	aopt_f_i.value			= "CF"
+
+	myOptionOpened			= false;
+}
+myResetOptions();
+
+
+
+/* -------- MAIN FUNCTIONS --------*/
+/* -- Create ColorBar --*/
+function myZColInner(){
+	MyZColbar	+= "<div class='zcolbar_in' id='zcolbar"+zm+"' style='background-color:rgb("+zr+","+zg+","+zb+");'></div>";
+}
+function myColInner(){
+	MyColbar	+= "<div class='colbar_in' id='colbar"+m+"' style='background-color:rgb("+r+","+g+","+b+");'></div>";
+}
+function myDraw(){
+	saturator	= opt_s_i.value/100;
+	calibrator	= opt_v_i.value*1.27;
+	multiplier	= (127-Math.abs(calibrator-127))/127;
+	multiplier	= saturator * multiplier;
+
+	xr		= multiplier;
+	xg		= multiplier;
+	xb		= multiplier;
+	if( opt_n_i.checked ){
+		xr	/= 1.125;
+		xg	/= 2.5;
+		xb	/= 1;
+	}
+
+	MyColbar	= "";
+	r		= calibrator + 128*xr;
+	g		= calibrator - 128*xg;
+	b		= calibrator - 128*xb;
+	m		= 0;
+
+	MyZColbar	= "";
+	zr		= r
+	zg		= g
+	zb		= b
+	zm		= 0;
+
+	if( opt_j_i.checked ){
+		scrollbar.style.backgroundColor	= "#333";
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zg			+= xg;
+			zm			+= 1;
+		}
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zr			-= xr;
+			zm			+= 1;
+		}
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zb			+= xb;
+			zm			+= 1;
+		}
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zg			-= xg;
+			zm			+= 1;
+		}
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zr			+= xr;
+			zm			+= 1;
+		}
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zb			-= xb;
+			zm			+= 1;
+		}
+		for( i = 0; i < 256; i ++ ){
+			if ( i % 2 == 0 ){
+				myColInner();
+				m		+= 1;
+			}
+			g			+= xg;
+		}
+		for( i = 0; i < 256; i ++ ){
+			if ( i % 2 == 0 ){
+				myColInner();
+				m		+= 1;
+			}
+			r			-= xr;
+		}
+		for( i = 0; i < 256; i ++ ){
+			if ( i % 2 == 0 ){
+				myColInner();
+				m		+= 1;
+			}
+			b			+= xb;
+		}
+		for( i = 0; i < 256; i ++ ){
+			if ( i % 2 == 0 ){
+				myColInner();
+				m		+= 1;
+			}
+			g			-= xg;
+		}
+		for( i = 0; i < 256; i ++ ){
+			if ( i % 2 == 0 ){
+				myColInner();
+				m		+= 1;
+			}
+			r			+= xr;
+		}
+		for( i = 0; i < 256; i ++ ){
+			if ( i % 2 == 0 ){
+				myColInner();
+				m		+= 1;
+			}
+			b			-= xb;
+		}
+	}else{
+		scrollbar.style.backgroundColor	= "#FFF";
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zg			+= ((xg*(256-i)/128)+(xg))/2;
+			zr			-= ((xr*i/128)+(xr))/2;
+			zm			+= 1;
+		}
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zb			+= ((xb*(256-i)/128)+(xb))/2;
+			zg			-= ((xg*i/128)+(xg))/2;
+			zm			+= 1;
+		}
+		for( i = 0; i < 256; i ++ ){
+			myZColInner();
+			zr			+= ((xr*(256-i)/128)+(xr))/2;
+			zb			-= ((xb*i/128)+(xb))/2;
+			zm			+= 1;
+		}
+	}
+	zcolbar.innerHTML	= MyZColbar;
+	colbar.innerHTML	= MyColbar;
+	zcolbarlength		= document.getElementsByClassName("zcolbar_in").length;
+	colbarlength		= document.getElementsByClassName("colbar_in").length;
+
+	zcolbar.addEventListener("wheel", myZBarW);
+	colbar.addEventListener("wheel", myBarW);
+	scrollfrm.addEventListener("wheel", myBarW);
+	if( opt_j_i.checked ){
+		for( i = 0; i < colbarlength; i ++ ){
+			MyElmTemp 		= "colbar" + i;
+			MyElmTemp 		= document.getElementById(MyElmTemp);
+			MyElmTemp.addEventListener("mousedown", myBar);
+		}
+		colbar.style.height		= "20px";
+		scrollbar.style.height		= "5px";
+	}else{
+		colbar.style.height		= "0px";
+		scrollbar.style.height		= "0px";
+		colbar.removeEventListener("wheel", myBarW);
+		scrollfrm.addEventListener("wheel", myBarW);
+	}
+}
+myDraw();
+
+
+
+
+/* -------- DISPLAY FUNCTIONS --------*/
+/* -- Converter --*/
+function myColNameConv( col ){
+	MyColName					= col.split(",");
+	MyColName[0]					= Number(MyColName[0].match(/[0-9]+/)).toString(16);
+	MyColName[1]					= Number(MyColName[1].match(/[0-9]+/)).toString(16);
+	MyColName[2]					= Number(MyColName[2].match(/[0-9]+/)).toString(16);
+	MyColName[0]					= "0" + MyColName[0];
+	MyColName[1]					= "0" + MyColName[1];
+	MyColName[2]					= "0" + MyColName[2];
+	MyColName[0]					= MyColName[0].substr(MyColName[0].length - 2, 2);
+	MyColName[1]					= MyColName[1].substr(MyColName[1].length - 2, 2);
+	MyColName[2]					= MyColName[2].substr(MyColName[2].length - 2, 2);
+	MyColName					= col + "<br>#" + MyColName[0] + MyColName[1] + MyColName[2];
+	MyColName					= MyColName.toUpperCase();
+	return( MyColName );
+}
+function mySubCol( sc , sm , mi , sh ){
+	if( mi < 0 ){
+		mi					+= 360;
+	}
+	if( mi >= 360 ){
+		mi					= 0;
+	}
+	sh						= sh;
+	mi						= Math.round(Number(sh*zcolbarlength/360)+Number(mi.match(/[0-9]+/)));
+	while( mi > zcolbarlength-1 ){
+		mi					-= zcolbarlength;
+	}
+	while( mi < 0 ){
+		mi					+= zcolbarlength;
+	}
+	mi						= "zcolbar" + mi;
+	mc						= document.getElementById( mi ).style.backgroundColor;
+	mc						= mc.split(",");
+	mc[0]						= sc+(Number(mc[0].match(/[0-9]+/)-calibrator)*sm/(multiplier+0.001));
+	mc[1]						= sc+(Number(mc[1].match(/[0-9]+/)-calibrator)*sm/(multiplier+0.001));
+	mc[2]						= sc+(Number(mc[2].match(/[0-9]+/)-calibrator)*sm/(multiplier+0.001));
+	mc						= "rgb("+mc[0]+","+mc[1]+","+mc[2]+")";
+	return( mc );
+}
+
+
+/* -- Change Display Color --*/
+function mySel(){
+	MySelectedID					= document.getElementById( MySelectedID.id );
+	MySelectedCol					= MySelectedID.style.backgroundColor;
+	colname.innerHTML				= myColNameConv( MySelectedCol );
+	colname.style.color				= MySelectedCol;
+	selectedcol.style.backgroundColor		= MySelectedCol;
+	subcolbox1.style.borderColor			= MySelectedCol;
+
+	saturator1					= saturator*aopt_ss_i.value/100;
+	calibrator1					= calibrator+((aopt_sv_i.value*1.27-127)*(127-Math.abs(calibrator-127))/127);
+	multiplier1					= (127-Math.abs(calibrator1-127))/127;
+	multiplier1					= saturator1 * multiplier1;
+
+	saturator2					= saturator*aopt_ts_i.value/100;
+	calibrator2					= calibrator+((aopt_tv_i.value*1.27-127)*(127-Math.abs(calibrator-127))/127);
+	multiplier2					= (127-Math.abs(calibrator2-127))/127;
+	multiplier2					= saturator2 * multiplier2;
+
+	subcol1.style.backgroundColor			= mySubCol( calibrator1 , multiplier1 , MySelectedID.id , aopt_sh_i.value );
+	subcol2.style.backgroundColor			= mySubCol( calibrator2 , multiplier2 , MySelectedID.id , aopt_th_i.value );
+	subcolbox1.style.borderColor			= MySelectedCol;
+
+	MySelectedID.style.borderBottom			= "none";
+	MySelectedID.style.borderTop			= "none";
+	MySelectedID.style.border			= "solid 2px #333";
+	MySelectedID.style.width			= "2px";
+}
+function myChoose(){
+	MyChooseCol					= this.style.backgroundColor;
+	subcol1.style.backgroundColor			= mySubCol( calibrator1 , multiplier1 , this.id , aopt_sh_i.value );
+	subcol2.style.backgroundColor			= mySubCol( calibrator2 , multiplier2 , this.id , aopt_th_i.value );
+	colname.innerHTML				= myColNameConv( MyChooseCol );
+	colname.style.color				= MyChooseCol;
+	if( this.id != "subcol1" && this.id != "subcol2" ){
+		selectedcol.style.backgroundColor	= MyChooseCol;
+		subcolbox1.style.borderColor		= MyChooseCol;
+		subcolbox2.style.borderColor		= subcol1.style.backgroundColor;
+	}
+}
+function myChange(){
+	MySelectedID.style.border			= "none";
+	MySelectedID.style.borderBottom			= "solid 2px #FFF";
+	MySelectedID.style.borderTop			= "solid 2px #FFF";
+	MySelectedID.style.width			= "1px";
+	MySelectedID					= document.getElementById( this.id );
+	MySelectedCol					= MySelectedID.style.backgroundColor;
+	mySel();
+}
+
+
+/* -- Adjust ColorBar Scroll --*/
+function mySlide( MyScrolling ){
+	if( !MyScrolling ){
+		MyScrolling				= MyScrolled;
+	}
+	if( !opt_j_i.checked ){
+		MyScrolling				= 0;
+	}
+	for( i = 0; i < zcolbarlength; i ++ ){
+		MyElmTemp 				= "zcolbar" + i;
+		MyElmTemp 				= document.getElementById(MyElmTemp);
+		MyElmTemp.style.display			= "none";
+		MyElmTemp.style.width			= "0";
+		MySelectedID.style.display		= "block";
+		MyElmTemp.addEventListener("mouseover", myChoose);
+		MyElmTemp.addEventListener("mouseout", mySel);
+		MyElmTemp.addEventListener("mousedown", myChange);
+	}
+	if( opt_j_i.checked ){
+		MyColbarLength				= colbarlength;
+	}else{
+		MyColbarLength				= zcolbarlength;
+	}
+	for( i = 0; i < MyColbarLength - 1 ; i ++ ){
+		MyElmTemp 				= i + MyScrolling * 2;
+		MyElmTemp 				= "zcolbar" + MyElmTemp;
+		MyElmTemp 				= document.getElementById(MyElmTemp);
+		MyElmTemp.style.display			= "block";
+		MyElmTemp.style.width			= "1px";
+		if( MyElmTemp == MySelectedID ){
+			MyColbarLength			+= 1;
+		}
+	}
+	MySelectedID.style.width		= "2px";
+	scrollbar.style.marginLeft			= MyScrolling + "px";
+}
+
+
+
+
+/* -------- EVENT LISTENER FUNCTIONS --------*/
+/* -- Bar Scroll --*/
+function myBar(){
+	s		= Number(this.id.match(/[0-9]+/)) - 192;
+	if( s < 0 ){
+		s	= 0;
+	}else if( s > 383 ){
+		s	= 383;
+	}
+	MyScrolled	= s;
+	mySlide( s );
+}
+function myBarW(e){
+	e.preventDefault();
+	s		= Number(MyScrolled) + 50 * event.deltaY / 100;
+	if( s < 0 ){
+		s	= 0;
+	}else if( s > 383 ){
+		s	= 383;
+	}
+	MyScrolled	= s;
+	mySlide( s );
+}
+function myZBarW(e){
+	e.preventDefault();
+	MySelectedID.style.border	= "none";
+	MySelectedID.style.borderBottom	= "solid 2px #FFF";
+	MySelectedID.style.borderTop	= "solid 2px #FFF";
+	MySelectedID.style.width	= "1px";
+	if( e.shiftKey ){
+		MySelectedID		= Number(MySelectedID.id.match(/[0-9]+/)) + event.deltaY / 100;
+	}else{
+		MySelectedID		= Number(MySelectedID.id.match(/[0-9]+/)) + 15 * event.deltaY / 100;
+	}
+	if( MySelectedID < 0 ){
+		MySelectedID	= 0;
+	}
+	if( MySelectedID > zcolbarlength-1 ){
+		MySelectedID	= zcolbarlength-1;
+	}
+	MySelectedID			= "zcolbar" + MySelectedID;
+	MySelectedID			= document.getElementById(MySelectedID);
+	MySelectedCol			= MySelectedID.style.backgroundColor;
+	mySlide();
+	mySel();
+}
+
+/* -- Basic Options --*/
+function myOptS(){
+	if( isNaN(opt_s_i.value) ){
+		opt_s_i.value	= 100;
+	}
+	if( opt_s_i.value < 0 ){
+		opt_s_i.value	= 0;
+	}
+	myDraw();
+	mySlide();
+	mySel();
+}
+function myOptV(){
+	if( isNaN(opt_v_i.value) ){
+		opt_v_i.value	= 100;
+	}
+	if( opt_v_i.value < 0 ){
+		opt_v_i.value	= 0;
+	}
+	if( opt_v_i.value > 200 ){
+		opt_v_i.value	= 200;
+	}
+	myDraw();
+	mySlide();
+	mySel();
+}
+function myOptSw(e){
+	e.preventDefault();
+	if( e.shiftKey ){
+		this.value	= Number(this.value) + 1 * event.deltaY / -100;
+	}else{
+		this.value	= Number(this.value) + 5 * event.deltaY / -100;
+	}
+	myOptS()
+}
+function myOptVw(e){
+	e.preventDefault();
+	if( e.shiftKey ){
+		this.value	= Number(this.value) + 1 * event.deltaY / -100;
+	}else{
+		this.value	= Number(this.value) + 5 * event.deltaY / -100;
+	}
+	myOptV()
+}
+function myOptN(){
+	myDraw();
+	mySlide();
+	mySel();
+}
+function myOptJ(){
+	myDraw();
+	s		= 0;
+	if( opt_j_i.checked ){
+		MyScrolled		= Number(MySelectedID.id.match(/[0-9]+/)) - 192;
+		if( MyScrolled > 383 ){
+			MyScrolled	= 383;
+		}
+		if( MyScrolled < 0 ){
+			MyScrolled	= 0;
+		}
+		MySelectedID		= Math.round(Number(MySelectedID.id.match(/[0-9]+/))*2);
+	}else{
+		MySelectedID		= Math.round(Number(MySelectedID.id.match(/[0-9]+/))/2);
+	}
+	if( MySelectedID > zcolbarlength - 1 ){
+		MySelectedID		= zcolbarlength - 1;
+	}
+	if( MySelectedID < 0 ){
+		MySelectedID		= "0";
+	}
+	MySelectedID			= "zcolbar" + MySelectedID;
+	MySelectedID			= document.getElementById(MySelectedID);
+	MySelectedCol			= MySelectedID.style.backgroundColor;
+	mySlide();
+	mySel();
+}
+
+
+/* -- Additional Options --*/
+function myOptEd(){
+	morecontrol.style.opacity		= "1";
+}
+function myOptEe(){
+	if( myOptionOpened ){
+		morecontrol.style.opacity	= "0";
+	}
+}
+function myOptEod(){
+	morecontrol_i.style.backgroundColor	= "#333";
+	morecontrol.style.borderTop		= "solid 1px #333";
+}
+function myOptEoe(){
+	morecontrol_i.style.backgroundColor	= "#CCC";
+	morecontrol.style.borderTop		= "solid 1px #CCC";
+}
+function myOptE(){
+	if( myOptionOpened ){
+		myOptionOpened			= false;
+		selectedcol.style.height	= "200px";
+		morecontrol_i.style.clipPath	= "polygon( 100% 50% , 50% 100% , 0% 50% )";
+		additional.style.height		= "280px";
+	}else{
+		myOptionOpened			= true;
+		selectedcol.style.height	= "480px";
+		morecontrol_i.style.clipPath	= "polygon( 50% 50% , 100% 100% , 0% 100% )";
+		additional.style.height		= "0px";
+	}
+}
+function myAOptS(){
+	if( aopt_s_i.checked ){
+		subcol1.style.visibility	= "visible";
+		subcolbox1.addEventListener("mousedown", myCopyStart);
+		subcolbox1.addEventListener("mouseup", myCopy);
+		subcolbox1.addEventListener("mouseleave", myCopyEnd);
+		subcolbox1.addEventListener("mouseenter", myCopyHover);
+	}else{
+		subcol1.style.visibility	= "hidden";
+		subcolbox1.removeEventListener("mousedown", myCopyStart);
+		subcolbox1.removeEventListener("mouseup", myCopy);
+		subcolbox1.removeEventListener("mouseleave", myCopyEnd);
+		subcolbox1.removeEventListener("mouseenter", myCopyHover);
+	}
+}
+function myAOptT(){
+	if( aopt_t_i.checked ){
+		subcol2.style.visibility	= "visible";
+		subcolbox2.addEventListener("mousedown", myCopyStart);
+		subcolbox2.addEventListener("mouseup", myCopy);
+		subcolbox2.addEventListener("mouseleave", myCopyEnd);
+		subcolbox2.addEventListener("mouseenter", myCopyHover);
+	}else{
+		subcol2.style.visibility	= "hidden";
+		subcolbox2.removeEventListener("mousedown", myCopyStart);
+		subcolbox2.removeEventListener("mouseup", myCopy);
+		subcolbox2.removeEventListener("mouseleave", myCopyEnd);
+		subcolbox2.removeEventListener("mouseenter", myCopyHover);
+	}
+}
+function myAOptHSV(){
+	if( isNaN(aopt_sh_i.value) ){
+		aopt_sh_i.value	= 0;
+	}
+	if( aopt_sh_i.value < -360 ){
+		aopt_sh_i.value	= -360;
+	}
+	if( aopt_sh_i.value > 360 ){
+		aopt_sh_i.value	= 360;
+	}
+	if( isNaN(aopt_ss_i.value) ){
+		aopt_ss_i.value	= 100;
+	}
+	if( aopt_ss_i.value < 0 ){
+		aopt_ss_i.value	= 0;
+	}
+	if( isNaN(aopt_sv_i.value) ){
+		aopt_sv_i.value	= 100;
+	}
+	if( aopt_sv_i.value < 0 ){
+		aopt_sv_i.value	= 0;
+	}
+	if( aopt_sv_i.value > 200 ){
+		aopt_sv_i.value	= 200;
+	}
+
+	if( isNaN(aopt_th_i.value) ){
+		aopt_th_i.value	= 0;
+	}
+	if( aopt_th_i.value < -360 ){
+		aopt_th_i.value	= -360;
+	}
+	if( aopt_th_i.value > 360 ){
+		aopt_th_i.value	= 360;
+	}
+	if( isNaN(aopt_ts_i.value) ){
+		aopt_ts_i.value	= 100;
+	}
+	if( aopt_ts_i.value < 0 ){
+		aopt_ts_i.value	= 0;
+	}
+	if( isNaN(aopt_tv_i.value) ){
+		aopt_tv_i.value	= 100;
+	}
+	if( aopt_tv_i.value < 0 ){
+		aopt_tv_i.value	= 0;
+	}
+	if( aopt_tv_i.value > 200 ){
+		aopt_tv_i.value	= 200;
+	}
+	mySel();
+}
+function myAOptHSVw(e){
+	e.preventDefault();
+	if( e.shiftKey ){
+		this.value	= Number(this.value) + 1 * event.deltaY / -100;
+	}else{
+		this.value	= Number(this.value) + 5 * event.deltaY / -100;
+	}
+	myAOptHSV()
+}
+function myAOptR(){
+	saturator	= 1;
+	calibrator	= 127;
+	myResetOptions()
+	myAOptS()
+	myAOptT()
+	myDraw()
+	myOptE()
+	s		= 0;
+	MyScrolled	= 0;
+	MySelectedID	= document.getElementById("zcolbar0");
+	MySelectedCol	= MySelectedID.style.backgroundColor;
+	mySlide();
+	mySel();
+}
+
+
+/* -- Copy Display Color --*/
+function myCopyStart(){
+	if( event.button == 2 ){
+		event.stopPropagation();
+		if( this.id == "subcolbox1" ){
+			subcol1.style.margin		= "10px 0 0 10px";
+			subcolbox2.style.margin		= "15px";
+		}else if( this.id == "subcolbox2" ){
+			subcol2.style.margin		= "10px 0 0 10px";
+		}else{
+			selectedcol.style.borderWidth	= "10px 0 0 10px";
+			subcolbox1.style.margin		= "15px";
+		}
+	}
+}
+function myCopy(){
+	event.stopPropagation();
+	if( this.id == "selectedcol" ){
+		MyCopyCode		= selectedcol.style.backgroundColor;
+	}else if( this.id == "subcolbox1" ){
+		MyCopyCode		= subcol1.style.backgroundColor;
+	}else if( this.id == "subcolbox2" ){
+		MyCopyCode		= subcol2.style.backgroundColor;
+	}
+	MyCopyCode			= myColNameConv( MyCopyCode ).split("<BR>");
+	if( aopt_f_i.value == "hff" ){
+		navigator.clipboard.writeText(MyCopyCode[1].toLowerCase());
+	} else if( aopt_f_i.value == "FF" ){
+		navigator.clipboard.writeText(MyCopyCode[1].replace("#", ""));
+	} else if( aopt_f_i.value == "ff" ){
+		navigator.clipboard.writeText(MyCopyCode[1].replace("#", "").toLowerCase());
+	} else if( aopt_f_i.value == "255s" ){
+		navigator.clipboard.writeText(MyCopyCode[0].replace("RGB(", "").replace(")", ""));
+	} else if( aopt_f_i.value == "255" ){
+		navigator.clipboard.writeText(MyCopyCode[0].replace("RGB(", "").replace(")", "").replace(/\s+/g, ""));
+	} else {
+		navigator.clipboard.writeText(MyCopyCode[1]);
+	}
+	myCopyReset();
+}
+function myCopyEnd(){
+	event.stopPropagation();
+	MyHoverCol			= MySelectedCol;
+	if( this.id == "subcolbox2" ){
+		MyHoverCol		= subcol1.style.backgroundColor;
+	}
+	colname.innerHTML		= myColNameConv( MyHoverCol );
+	colname.style.color		= MyHoverCol;
+	myCopyReset();
+}
+function myCopyReset(){
+	selectedcol.style.borderWidth	= "5px";
+	subcol1.style.margin		= "5px";
+	subcolbox1.style.margin		= "10px";
+	subcol2.style.margin		= "5px";
+	subcolbox2.style.margin		= "10px";
+}
+function myCopyHover(){
+	MyHoverCol			= MySelectedCol;
+	if( this.id == "subcolbox1" ){
+		MyHoverCol		= subcol1.style.backgroundColor;
+	}else if( this.id == "subcolbox2" ){
+		MyHoverCol		= subcol2.style.backgroundColor;
+	}
+	colname.innerHTML		= myColNameConv( MyHoverCol );
+	colname.style.color		= MyHoverCol;
+}
+
+
+/* -- GIMP Palette Macro --*/
+function myMACRO(){
+	MyMacroName	= "ColSel" + MySelectedCol.split("b")[1];
+	MyMacroText	= "GIMP Palette\nName: " + MyMacroName + "\n#\n";
+	MyMacroCol	= MySelectedCol;
+	for( i = 0; i < 16; i ++ ){
+		for( j = 0; j < 16; j ++ ){
+			MyMacroH		= aopt_sh_i.value*j/15 + aopt_th_i.value*i/15;
+
+			MyMacroS		= 100 + ((aopt_ss_i.value-100)*j/15) + ((aopt_ts_i.value-100)*i/15);
+			MyMacroV		= 100 + ((aopt_sv_i.value-100)*j/15) + ((aopt_tv_i.value-100)*i/15);
+/*
+			MyMacroS		= (100 + (aopt_ss_i.value-100)*j + (aopt_ts_i.value-100)*i) / 100;
+			MyMacroV		= 100 + (aopt_sv_i.value-100)*j + (aopt_tv_i.value-100)*i;
+
+			calibrator1		= calibrator+((aopt_sv_i.value*1.27-127)*(127-Math.abs(calibrator-127))/127);
+			multiplier1		= (127-Math.abs(calibrator1-127))/127;
+*/
+			saturator3		= saturator*MyMacroS/100;
+			calibrator3		= calibrator+((MyMacroV*1.27-127)*(127-Math.abs(calibrator-127))/127);
+
+			if( isNaN( MyMacroH ) ){
+				MyMacroH	= 0;
+			}
+			while( MyMacroH < 0 ){
+				MyMacroH	= Number(MyMacroH) + 360;
+			}
+			while( MyMacroH >= 360 ){
+				MyMacroH	= Number(MyMacroH) - 360;
+			}
+			if( Number(saturator3) < 0 || isNaN( saturator3 ) ){
+				saturator3	= 0;
+			}
+			if( Number(calibrator3) < 0 || isNaN( calibrator3 ) ){
+				calibrator3	= 0;
+			}
+
+			multiplier3		= (127-Math.abs(calibrator3-127))/127;
+			multiplier3		= saturator3 * multiplier3;
+
+
+
+			MyMacroCol		= mySubCol( calibrator3 , multiplier3 , MySelectedID.id , MyMacroH);
+
+			MyMacroTemp		= MyMacroCol.split(",")
+			MyMacroTemp[0]		= Math.round(MyMacroTemp[0].match(/\d+(?:\.\d+)?/));
+			MyMacroTemp[1]		= Math.round(MyMacroTemp[1].match(/\d+(?:\.\d+)?/));
+			MyMacroTemp[2]		= Math.round(MyMacroTemp[2].match(/\d+(?:\.\d+)?/));
+			for( k = 0; k < 3; k ++ ){
+				if( MyMacroTemp[k] > 255 ){
+					MyMacroTemp[k]	= 255;
+				}
+				if( MyMacroTemp[k] < 0 ){
+					MyMacroTemp[k]	= 0;
+				}
+			}
+			MyMacroTemp[0]		+= "";
+			MyMacroTemp[1]		+= "";
+			MyMacroTemp[2]		+= "";
+			
+			for( k = 0; k < 3; k ++ ){
+				while( MyMacroTemp[k].length < 3 ){
+					MyMacroTemp[k]	= " " + MyMacroTemp[k];
+				}
+			}
+
+			MyMacroText		+= MyMacroTemp[0] + " " + MyMacroTemp[1] + " " + MyMacroTemp[2] + " " + "\t\n";
+		}
+	
+	
+	}
+	const blob = new Blob([MyMacroText],{type:"text/plain"});
+	const link = document.createElement("a");
+	link.href = URL.createObjectURL(blob);
+	link.download = MyMacroName + ".gpl";
+	link.click();
+}
+
+
+
+
+/* -------- EVENT LISTENERS -------- */
+/* -- Basic Options --*/
+opt_s_i.addEventListener("change", myOptS);
+opt_v_i.addEventListener("change", myOptV);
+opt_s_i.addEventListener("wheel", myOptSw);
+opt_v_i.addEventListener("wheel", myOptVw);
+opt_n_i.addEventListener("change", myOptN);
+opt_j_i.addEventListener("change", myOptJ);
+
+
+/* -- Additional Options --*/
+aopt_s_i.addEventListener("change", myAOptS);
+aopt_t_i.addEventListener("change", myAOptT);
+
+aopt_sh_i.addEventListener("change", myAOptHSV);
+aopt_ss_i.addEventListener("change", myAOptHSV);
+aopt_sv_i.addEventListener("change", myAOptHSV);
+aopt_sh_i.addEventListener("wheel", myAOptHSVw);
+aopt_ss_i.addEventListener("wheel", myAOptHSVw);
+aopt_sv_i.addEventListener("wheel", myAOptHSVw);
+
+aopt_th_i.addEventListener("change", myAOptHSV);
+aopt_ts_i.addEventListener("change", myAOptHSV);
+aopt_tv_i.addEventListener("change", myAOptHSV);
+aopt_th_i.addEventListener("wheel", myAOptHSVw);
+aopt_ts_i.addEventListener("wheel", myAOptHSVw);
+aopt_tv_i.addEventListener("wheel", myAOptHSVw);
+
+aopt_m_i.addEventListener("click", myMACRO);
+aopt_r_i.addEventListener("click", myAOptR);
+
+morecontrol.addEventListener("click", myOptE);
+morecontrol.addEventListener("mouseover", myOptEod);
+morecontrol.addEventListener("mouseout", myOptEoe);
+
+control.addEventListener("mouseover", myOptEd);
+control.addEventListener("mouseout", myOptEe);
+
+
+/* -- Copy Display Color -- */
+selectedcol.addEventListener("mousedown", myCopyStart);
+selectedcol.addEventListener("mouseup", myCopy);
+selectedcol.addEventListener("mouseleave", myCopyEnd);
+selectedcol.addEventListener("mouseenter", myCopyHover);
+
+
+
+
+/* -------- EXECUTES -------- */
+/* -- Option Reset -- */
+myOptE()
+myAOptS()
+myAOptT()
+
+
+/* -- Scroll Reset -- */
+s		= 0;
+MyScrolled	= 0;
+MySelectedID	= document.getElementById("zcolbar0");
+MySelectedCol	= MySelectedID.style.backgroundColor;
+mySlide();
+mySel();
+
+</script>
+</html>
